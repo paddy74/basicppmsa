@@ -28,8 +28,8 @@ The reccommended way to add this library to you project is by including the foll
 cmake_minimum_required(VERSION 3.13)
 project(myProject)
 
-include_directories("path/to/static-doc-specificity/include")
-add_subdirectory("path/to/static-doc-specificity")
+include_directories("path/to/cppmsa-template/include")
+add_subdirectory("path/to/cppmsa-template")
 
 add_executable(myProject myProject_SOURCES)
 # or `add_library(myProject myProject_SOURCES)`

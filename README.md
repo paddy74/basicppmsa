@@ -2,7 +2,7 @@
 
 # C++ Microservice Template
 
-A drop-in template for a microservice built with the C++ REST SDK.
+This library is developed to allow for the rapid implementation of a microservice using the [C++ REST SDK](https://github.com/Microsoft/cpprestsdk).
 
 ## Getting Started
 
@@ -19,6 +19,29 @@ Dependencies can be installed on Ubuntu using the following command:
 ```bash
 sudo apt install cmake libssl-dev libboost-all-dev libcpprest-dev
 ```
+
+### Adding to your project
+
+The reccommended way to add this library to you project is by including the following to your CMakeLists.txt:
+
+```cmake
+cmake_minimum_required(VERSION 3.13)
+project(myProject)
+
+include_directories("path/to/static-doc-specificity/include")
+add_subdirectory("path/to/static-doc-specificity")
+
+add_executable(myProject myProject_SOURCES)
+# or `add_library(myProject myProject_SOURCES)`
+
+target_link_libraries(myProject staticspecrank)
+```
+
+### Usage
+
+When using this library, create a child class of cppmsa::MainServiceController with your custom overrides of the available HTTP requests.
+
+An example deployment using this library can be found in [tests/src/testDeploy.cc](tests/src/testDeploy.cc)
 
 ## Versioning
 

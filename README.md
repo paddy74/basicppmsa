@@ -34,7 +34,7 @@ add_subdirectory("path/to/cppmsa-template")
 add_executable(myProject myProject_SOURCES)
 # or `add_library(myProject myProject_SOURCES)`
 
-target_link_libraries(myProject staticspecrank)
+target_link_libraries(myProject cppmsa)
 ```
 
 ### Usage

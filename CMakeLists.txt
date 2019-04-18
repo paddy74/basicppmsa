@@ -188,4 +188,5 @@ export(PACKAGE ${PROJECT_NAME})
 
 message(STATUS "Exporting project - done")
 
-#enable_testing()
+# Testing
+add_subdirectory(tests)

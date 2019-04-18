@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../src/base/BasicController.h"
+#include "src/base/BasicController.h"
 
 
 namespace cppmsa

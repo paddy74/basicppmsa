@@ -1,15 +1,13 @@
-#include "BasicController.h"
-#include "NetworkUtils.h"
+#include "BasicController.hpp"
 
+#include "NetworkUtils.hpp"
 
 namespace cppmsa::base
 {
-
 // Constructors
 
 BasicController::BasicController() {}
 BasicController::~BasicController() {}
-
 
 // Methods
 
@@ -26,22 +24,25 @@ void BasicController::setEndpoint(const std::string & value)
 
     endpointBuilder.set_scheme(endpointURI.scheme());
     endpointBuilder.set_scheme(endpointURI.scheme());
-    if (endpointURI.host() == "host_auto_ip4") {
+    if (endpointURI.host() == "host_auto_ip4")
+    {
         endpointBuilder.set_host(NetworkUtils::hostIP4());
     }
-    else if (endpointURI.host() == "host_auto_ip6") {
+    else if (endpointURI.host() == "host_auto_ip6")
+    {
         endpointBuilder.set_host(NetworkUtils::hostIP6());
     }
     endpointBuilder.set_port(endpointURI.port());
     endpointBuilder.set_path(endpointURI.path());
 
-    _listener = web::http::experimental::listener::http_listener(endpointBuilder.to_uri());
+    _listener = web::http::experimental::listener::http_listener(
+        endpointBuilder.to_uri());
 }
 
-
 std::string BasicController::endpoint() const
-{ return _listener.uri().to_string(); }
-
+{
+    return _listener.uri().to_string();
+}
 
 /**
  * @brief Initialize the thread pool that is used by pplx concurrency runtime
@@ -56,22 +57,18 @@ pplx::task<void> BasicController::accept()
     return _listener.open();
 }
 
-
 /**
  * @brief Shutdown the process.
  *
  * @return pplx::task<void> Use with .wait() to wait for all threads to finish.
  */
-pplx::task<void> BasicController::shutdown()
-{
-    return _listener.close();
-}
+pplx::task<void> BasicController::shutdown() { return _listener.close(); }
 
-
-std::vector<utility::string_t> BasicController::requestPath(const web::http::http_request & message)
+std::vector<utility::string_t> BasicController::requestPath(
+    const web::http::http_request & message)
 {
     auto relativePath = web::uri::decode(message.relative_uri().path());
     return web::uri::split_path(relativePath);
 }
 
-}
+}  // namespace cppmsa::base

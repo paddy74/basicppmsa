@@ -68,9 +68,9 @@ message(STATUS "Setting target properties")
 # Set the library sources
 # -----------------------
 set(libsrc
-    src/base/BasicController.cc
-    src/base/NetworkUtils.cc
-    src/MainServiceController.cc
+    src/base/BasicController.cpp
+    src/base/NetworkUtils.cpp
+    src/MainServiceController.cpp
 )
 
 # Add the library

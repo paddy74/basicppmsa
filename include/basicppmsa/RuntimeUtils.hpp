@@ -3,10 +3,8 @@
 #include <execinfo.h>
 #include <unistd.h>
 
-
 namespace cppmsa
 {
-
 /**
  * @brief Print the stack trac when an unexpected exception occurs
  *
@@ -28,4 +26,4 @@ public:
     }
 };
 
-}
+}  // namespace cppmsa

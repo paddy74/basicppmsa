@@ -4,7 +4,7 @@ message(STATUS "Preparing tests")
 enable_testing()
 
 # Create and link the test executables
-add_executable(basicppmsa.test_deploy src/testDeploy.cc)
+add_executable(basicppmsa.test_deploy src/test_deploy.cpp)
 target_link_libraries(basicppmsa.test_deploy basicppmsa)
 
 # Test definitions

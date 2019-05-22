@@ -1,9 +1,7 @@
-#include <cppmsa/MainServiceController.h>
-
+#include <basicppmsa/MainServiceController.hpp>
 
 namespace cppmsa
 {
-
 /* Public class methods */
 
 /**
@@ -13,7 +11,8 @@ namespace cppmsa
  */
 void MainServiceController::handleGet(web::http::http_request message)
 {
-    message.reply(web::http::status_codes::NotImplemented,
+    message.reply(
+        web::http::status_codes::NotImplemented,
         this->responseNotImpl(web::http::methods::GET));
 }
 
@@ -24,7 +23,8 @@ void MainServiceController::handleGet(web::http::http_request message)
  */
 void MainServiceController::handlePut(web::http::http_request message)
 {
-    message.reply(web::http::status_codes::NotImplemented,
+    message.reply(
+        web::http::status_codes::NotImplemented,
         this->responseNotImpl(web::http::methods::PUT));
 }
 
@@ -35,7 +35,8 @@ void MainServiceController::handlePut(web::http::http_request message)
  */
 void MainServiceController::handlePost(web::http::http_request message)
 {
-    message.reply(web::http::status_codes::NotImplemented,
+    message.reply(
+        web::http::status_codes::NotImplemented,
         this->responseNotImpl(web::http::methods::POST));
 }
 
@@ -46,7 +47,8 @@ void MainServiceController::handlePost(web::http::http_request message)
  */
 void MainServiceController::handlePatch(web::http::http_request message)
 {
-    message.reply(web::http::status_codes::NotImplemented,
+    message.reply(
+        web::http::status_codes::NotImplemented,
         this->responseNotImpl(web::http::methods::PATCH));
 }
 
@@ -57,7 +59,8 @@ void MainServiceController::handlePatch(web::http::http_request message)
  */
 void MainServiceController::handleDelete(web::http::http_request message)
 {
-    message.reply(web::http::status_codes::NotImplemented,
+    message.reply(
+        web::http::status_codes::NotImplemented,
         this->responseNotImpl(web::http::methods::DEL));
 }
 
@@ -68,7 +71,8 @@ void MainServiceController::handleDelete(web::http::http_request message)
  */
 void MainServiceController::handleHead(web::http::http_request message)
 {
-    message.reply(web::http::status_codes::NotImplemented,
+    message.reply(
+        web::http::status_codes::NotImplemented,
         this->responseNotImpl(web::http::methods::HEAD));
 }
 
@@ -79,7 +83,8 @@ void MainServiceController::handleHead(web::http::http_request message)
  */
 void MainServiceController::handleOptions(web::http::http_request message)
 {
-    message.reply(web::http::status_codes::NotImplemented,
+    message.reply(
+        web::http::status_codes::NotImplemented,
         this->responseNotImpl(web::http::methods::OPTIONS));
 }
 
@@ -90,7 +95,8 @@ void MainServiceController::handleOptions(web::http::http_request message)
  */
 void MainServiceController::handleTrace(web::http::http_request message)
 {
-    message.reply(web::http::status_codes::NotImplemented,
+    message.reply(
+        web::http::status_codes::NotImplemented,
         this->responseNotImpl(web::http::methods::TRCE));
 }
 
@@ -101,7 +107,8 @@ void MainServiceController::handleTrace(web::http::http_request message)
  */
 void MainServiceController::handleConnect(web::http::http_request message)
 {
-    message.reply(web::http::status_codes::NotImplemented,
+    message.reply(
+        web::http::status_codes::NotImplemented,
         this->responseNotImpl(web::http::methods::CONNECT));
 }
 
@@ -112,10 +119,10 @@ void MainServiceController::handleConnect(web::http::http_request message)
  */
 void MainServiceController::handleMerge(web::http::http_request message)
 {
-    message.reply(web::http::status_codes::NotImplemented,
+    message.reply(
+        web::http::status_codes::NotImplemented,
         this->responseNotImpl(web::http::methods::MERGE));
 }
-
 
 /**
  * @brief Initialize REST operation handlers
@@ -125,31 +132,25 @@ void MainServiceController::initRestOpHandlers()
 {
     this->_listener.support(  // GET
         web::http::methods::GET,
-        std::bind(&MainServiceController::handleGet,
-            this, std::placeholders::_1)
-    );
+        std::bind(
+            &MainServiceController::handleGet, this, std::placeholders::_1));
     this->_listener.support(  // PUT
         web::http::methods::PUT,
-        std::bind(&MainServiceController::handlePut,
-            this, std::placeholders::_1)
-    );
+        std::bind(
+            &MainServiceController::handlePut, this, std::placeholders::_1));
     this->_listener.support(  // POST
         web::http::methods::POST,
-        std::bind(&MainServiceController::handlePost,
-            this, std::placeholders::_1)
-    );
+        std::bind(
+            &MainServiceController::handlePost, this, std::placeholders::_1));
     this->_listener.support(  // DEL
-        web::http::methods::DEL,
-        std::bind(&MainServiceController::handleDelete,
-            this, std::placeholders::_1)
-    );
+        web::http::methods::DEL, std::bind(
+                                     &MainServiceController::handleDelete,
+                                     this, std::placeholders::_1));
     this->_listener.support(  // PATCH
         web::http::methods::PATCH,
-        std::bind(&MainServiceController::handlePatch,
-            this, std::placeholders::_1)
-    );
+        std::bind(
+            &MainServiceController::handlePatch, this, std::placeholders::_1));
 }
-
 
 /* Protected class methods */
 
@@ -163,4 +164,4 @@ web::json::value MainServiceController::responseNotImpl(
     return response;
 }
 
-}
+}  // namespace cppmsa

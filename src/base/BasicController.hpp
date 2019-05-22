@@ -1,16 +1,14 @@
 #pragma once
 
-#include <string>
-
 #include <cpprest/http_listener.h>
 #include <pplx/pplxtasks.h>
 
-#include "core/Controller.h"
+#include <string>
 
+#include "core/Controller.hpp"
 
 namespace cppmsa::base
 {
-
 /**
  * @brief Provides a wrapper around http_listener and methods to read the
  * endpoint string and decide if the service should determine the host's IP
@@ -31,11 +29,12 @@ public:
 
     virtual void initRestOpHandlers() {}
 
-    std::vector<utility::string_t> requestPath(const web::http::http_request & message);
+    std::vector<utility::string_t> requestPath(
+        const web::http::http_request & message);
 
 protected:
     // Main micro service network endpoint
     web::http::experimental::listener::http_listener _listener;
 };
 
-}
+}  // namespace cppmsa::base

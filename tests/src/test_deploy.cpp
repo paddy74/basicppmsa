@@ -1,7 +1,6 @@
-#include <cppmsa/RuntimeUtils.h>
-#include <cppmsa/InterruptHandler.h>
-#include <cppmsa/MainServiceController.h>
-
+#include <basicppmsa/InterruptHandler.hpp>
+#include <basicppmsa/MainServiceController.hpp>
+#include <basicppmsa/RuntimeUtils.hpp>
 
 int main(int argc, const char * argv[])
 {
@@ -14,7 +13,7 @@ int main(int argc, const char * argv[])
     {
         server.accept().wait();
         std::cout << "C++ Microservice now listening for requests at: "
-            << server.endpoint() << std::endl;
+                  << server.endpoint() << std::endl;
 
         cppmsa::InterruptHandler::waitForUserInterrupt();
 

@@ -1,11 +1,9 @@
 #pragma once
 
-#include "src/base/BasicController.h"
-
+#include "../src/base/BasicController.hpp"
 
 namespace cppmsa
 {
-
 /**
  * @brief Manages registering handles with the http_listener and provides
  * implementations for the following http_request methods
@@ -23,16 +21,14 @@ namespace cppmsa
  * - CONNECT
  * - MERGE
  */
-class MainServiceController
-: public base::BasicController,
-         base::core::Controller
+class MainServiceController : public base::BasicController,
+                              base::core::Controller
 {
 public:
     /* Constructors */
 
     MainServiceController() : base::BasicController() {}
     ~MainServiceController() {}
-
 
     /* Public class methods */
 
@@ -61,9 +57,10 @@ protected:
      * Usage:
      * ------
      * web::http::methods method;
-     * message.reply(web::http::status_codes::NotImplemented, responseNotImpl(method));
+     * message.reply(web::http::status_codes::NotImplemented,
+     * responseNotImpl(method));
      */
     web::json::value responseNotImpl(web::http::method const & method) const;
 };
 
-}
+}  // namespace cppmsa

@@ -9,7 +9,7 @@
 static std::condition_variable _condition;
 static std::mutex _mutex;
 
-namespace cppmsa
+namespace basicppmsa
 {
 /**
  * @brief Handle when the user types Ctrl+C on the terminal when the service is
@@ -48,4 +48,4 @@ public:
     }
 };
 
-}  // namespace cppmsa
+}  // namespace basicppmsa

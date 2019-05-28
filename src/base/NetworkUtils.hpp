@@ -4,7 +4,7 @@
 
 #include "core/stdMicroService.hpp"
 
-namespace cppmsa::base
+namespace basicppmsa::base
 {
 using HostInetInfo = boost::asio::ip::tcp::resolver::iterator;
 
@@ -23,4 +23,4 @@ private:
     static std::string hostIP(unsigned short family);
 };
 
-}  // namespace cppmsa::base
+}  // namespace basicppmsa::base

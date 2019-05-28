@@ -1,6 +1,6 @@
 #include "NetworkUtils.hpp"
 
-namespace cppmsa::base
+namespace basicppmsa::base
 {
 HostInetInfo NetworkUtils::queryHostInetInfo()
 {
@@ -26,4 +26,4 @@ std::string NetworkUtils::hostIP(unsigned short family)
     return nullptr;
 }
 
-}  // namespace cppmsa::base
+}  // namespace basicppmsa::base

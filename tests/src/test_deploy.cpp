@@ -4,9 +4,9 @@
 
 int main()
 {
-    cppmsa::InterruptHandler::hookSIGINT();
+    basicppmsa::InterruptHandler::hookSIGINT();
 
-    cppmsa::MainServiceController server;
+    basicppmsa::MainServiceController server;
 
     return 0;
 }

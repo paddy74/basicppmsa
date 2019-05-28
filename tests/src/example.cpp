@@ -4,10 +4,10 @@
 
 int main()
 {
-    cppmsa::InterruptHandler::hookSIGINT();
+    basicppmsa::InterruptHandler::hookSIGINT();
 
-    cppmsa::MainServiceController server;
-    server.setEndpoint("http://host_auto_ip4:6502/cppmsa/api");
+    basicppmsa::MainServiceController server;
+    server.setEndpoint("http://host_auto_ip4:6502/basicppmsa/api");
 
     try
     {
@@ -15,7 +15,7 @@ int main()
         std::cout << "C++ Microservice now listening for requests at: "
                   << server.endpoint() << std::endl;
 
-        cppmsa::InterruptHandler::waitForUserInterrupt();
+        basicppmsa::InterruptHandler::waitForUserInterrupt();
 
         server.shutdown().wait();
     }
@@ -25,7 +25,7 @@ int main()
     }
     catch (...)
     {
-        cppmsa::RuntimeUtils::printStackTrace();
+        basicppmsa::RuntimeUtils::printStackTrace();
     }
 
     return 0;

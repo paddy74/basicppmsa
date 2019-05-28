@@ -41,16 +41,6 @@ set(EXTERNAL_LIBS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 find_package(cpprestsdk REQUIRED)
 set(CPPRESTSDK_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
 
-# Boost
-find_package(Boost REQUIRED
-    COMPONENTS
-        system
-        thread
-        log
-        program_options
-        chrono
-)
-
 # Thread
 set(CMAKE_THREAD_PREFER_PTHREAD True)
 set(THREADS_PREFER_PTHREAD_FLAG True)
@@ -99,12 +89,24 @@ target_compile_features(${PROJECT_NAME_L} PRIVATE cxx_auto_type)
 
 # Include external libs
 # ---------------------
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/boost-cmake)
+
+# Boost components
 target_link_libraries(${PROJECT_NAME_L}
     PUBLIC
-        cpprestsdk::cpprest
+
+)
+
+target_link_libraries(${PROJECT_NAME_L}
+    PUBLIC
+        Boost::system
+        Boost::thread
+        Boost::log
+        Boost::program_options
+        Boost::chrono
+
         OpenSSL::SSL
-        ${Boost_LIBRARIES}
-        Threads::Threads
+        cpprestsdk::cpprest
 )
 
 message(STATUS "Setting target properties - done")

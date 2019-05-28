@@ -23,6 +23,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 OPTION(BUILD_SHARED_LIBS
     "Build ${PROJECT_NAME}.a rather than ${PROJECT_NAME}.so" OFF)
 OPTION(BUILD_TESTING "Build the testing tree." ON)
+OPTION(ENABLE_CODECOV "Enable code coverage reporting." OFF)
 
 # Include additional cmake/ settings
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -31,15 +32,6 @@ set(CMAKE_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
 include(BuildType)
 include(BuildLocation)
 include(CompilerFlags)
-
-# -----------------------------------------------------------------------------
-# Configure required libraries
-# -----------------------------------------------------------------------------
-set(EXTERNAL_LIBS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
-
-# C++ REST SDK
-find_package(cpprestsdk REQUIRED)
-set(CPPRESTSDK_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
 
 # -----------------------------------------------------------------------------
 # Create and set target properties
@@ -82,6 +74,7 @@ target_compile_features(${PROJECT_NAME_L} PRIVATE cxx_auto_type)
 # ---------------------
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/boost-cmake)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/openssl-cmake)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/cpprestsdk)
 
 target_link_libraries(${PROJECT_NAME_L}
     PUBLIC
@@ -94,7 +87,6 @@ target_link_libraries(${PROJECT_NAME_L}
         ssl
         crypto
 
-        OpenSSL::SSL
         cpprestsdk::cpprest
 )
 

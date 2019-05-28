@@ -41,11 +41,6 @@ set(EXTERNAL_LIBS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 find_package(cpprestsdk REQUIRED)
 set(CPPRESTSDK_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
 
-# Thread
-set(CMAKE_THREAD_PREFER_PTHREAD True)
-set(THREADS_PREFER_PTHREAD_FLAG True)
-find_package(Threads REQUIRED)
-
 # OpenSSL
 find_package(OpenSSL 1.1.0 REQUIRED)
 set(OPENSSL_VERSION "1.1.0")

@@ -41,10 +41,6 @@ set(EXTERNAL_LIBS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 find_package(cpprestsdk REQUIRED)
 set(CPPRESTSDK_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
 
-# OpenSSL
-find_package(OpenSSL 1.1.0 REQUIRED)
-set(OPENSSL_VERSION "1.1.0")
-
 # -----------------------------------------------------------------------------
 # Create and set target properties
 # -----------------------------------------------------------------------------
@@ -85,12 +81,7 @@ target_compile_features(${PROJECT_NAME_L} PRIVATE cxx_auto_type)
 # Include external libs
 # ---------------------
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/boost-cmake)
-
-# Boost components
-target_link_libraries(${PROJECT_NAME_L}
-    PUBLIC
-
-)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/openssl-cmake)
 
 target_link_libraries(${PROJECT_NAME_L}
     PUBLIC
@@ -99,6 +90,9 @@ target_link_libraries(${PROJECT_NAME_L}
         Boost::log
         Boost::program_options
         Boost::chrono
+
+        ssl
+        crypto
 
         OpenSSL::SSL
         cpprestsdk::cpprest

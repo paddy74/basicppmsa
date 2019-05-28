@@ -101,8 +101,8 @@ target_compile_features(${PROJECT_NAME_L} PRIVATE cxx_auto_type)
 # ---------------------
 target_link_libraries(${PROJECT_NAME_L}
     PUBLIC
-        ${CPPRESTSDK_LIBRARIES}
-        ${OPENSSL_LIBRARIES}
+        cpprestsdk::cpprest
+        OpenSSL::SSL
         ${Boost_LIBRARIES}
         Threads::Threads
 )

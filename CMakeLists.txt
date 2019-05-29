@@ -34,23 +34,6 @@ include(BuildLocation)
 include(CompilerFlags)
 
 # -----------------------------------------------------------------------------
-# Configure required libraries
-# -----------------------------------------------------------------------------
-# Boost
-find_package(Boost REQUIRED
-    COMPONENTS
-        system
-        thread
-        log
-        program_options
-        chrono
-)
-
-# C++ REST SDK
-find_package(cpprestsdk REQUIRED)
-set(CPPRESTSDK_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
-
-# -----------------------------------------------------------------------------
 # Create and set target properties
 # -----------------------------------------------------------------------------
 message(STATUS "Setting target properties")
@@ -89,6 +72,25 @@ add_target_compiler_flags(${PROJECT_NAME_L})
 
 # Include external libs
 # ---------------------
+set(TARGET_EXPORT_LIBS ${PROJECT_NAME_L})
+
+OPTION(USE_SYSTEM_BOOST "Use system installation of Boost libraries" ON)
+OPTION(USE_SYSTEM_CPPRESTSDK "Use system installation of the C++ REST SDK" ON)
+
+# Boost option
+if(USE_SYSTEM_BOOST)
+    find_package(Boost REQUIRED
+    COMPONENTS
+        system
+        thread
+        log
+        program_options
+        chrono
+    )
+else()  # Use boost-cmake
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/boost-cmake)
+endif()
+
 target_link_libraries(${PROJECT_NAME_L}
     PRIVATE
         Boost::system
@@ -96,9 +98,19 @@ target_link_libraries(${PROJECT_NAME_L}
         Boost::log
         Boost::program_options
         Boost::chrono
-
-        cpprestsdk::cpprest
 )
+
+# C++ REST SDK option
+if(USE_SYSTEM_CPPRESTSDK)
+    find_package(cpprestsdk REQUIRED)
+    set(CPPRESTSDK_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
+
+    target_link_libraries(${PROJECT_NAME_L} PUBLIC cpprestsdk::cpprest)
+else()  # Use submodule
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/cpprestsdk)
+
+    target_link_libraries(${PROJECT_NAME_L} PUBLIC cpprest)
+endif()
 
 message(STATUS "Setting target properties - done")
 

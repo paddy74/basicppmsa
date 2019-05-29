@@ -21,6 +21,10 @@ Dependencies can be installed on Ubuntu using the following command:
 sudo apt install libboost-atomic-dev libboost-thread-dev libboost-system-dev libboost-date-time-dev libboost-regex-dev libboost-filesystem-dev libboost-random-dev libboost-chrono-dev libboost-serialization-dev libwebsocketpp-dev openssl libssl-dev libcpprest-dev -y
 ```
 
+The following requires fewer compiler flags through the use of `-DWERROR=OFF`.
+
+This project also supports building the dependencies Boost and C++ REST SDK from source by using `cmake .. -DUSE_SYSTEM_BOOL=OFF -DUSE_SYSTEM_CPPRESTSDK=OFF`. In this case the dependencies for Libwebsockets and OpenSSL will still need to exist on system.
+
 ### Adding to your project
 
 The reccommended way to add this library to you project is by including the following to your CMakeLists.txt:

@@ -70,29 +70,40 @@ target_include_directories(${PROJECT_NAME_L}
 
 add_target_compiler_flags(${PROJECT_NAME_L})
 
-# Include external libs
-# ---------------------
-set(TARGET_EXPORT_LIBS ${PROJECT_NAME_L})
+message(STATUS "Setting target properties - done")
 
+# -----------------------------------------------------------------------------
+# Locate and link external libraries
+# -----------------------------------------------------------------------------
+message(STATUS "Linking external libraries")
+
+# Hold the project's export targets
+set(PROJECT_EXPORT_TARGETS ${PROJECT_NAME_L})
+
+# Toggle using system installed libraries
 OPTION(USE_SYSTEM_BOOST "Use system installation of Boost libraries" ON)
 OPTION(USE_SYSTEM_CPPRESTSDK "Use system installation of the C++ REST SDK" ON)
 
 # Boost option
 if(USE_SYSTEM_BOOST)
+    message(STATUS "Using system Boost")
     find_package(Boost REQUIRED
-    COMPONENTS
-        system
-        thread
-        log
-        program_options
-        chrono
+        COMPONENTS
+            system
+            thread
+            log
+            program_options
+            chrono
     )
 else()  # Use boost-cmake
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/boost-cmake)
+
+    list(APPEND PROJECT_EXPORT_TARGETS Boost_system Boost_thread Boost_log Boost_atomic Boost_date_time Boost_filesystem Boost_program_options Boost_chrono)
 endif()
 
+# Link Boost
 target_link_libraries(${PROJECT_NAME_L}
-    PRIVATE
+    PUBLIC
         Boost::system
         Boost::thread
         Boost::log
@@ -102,6 +113,7 @@ target_link_libraries(${PROJECT_NAME_L}
 
 # C++ REST SDK option
 if(USE_SYSTEM_CPPRESTSDK)
+    message(STATUS "Using system C++ REST SDK")
     find_package(cpprestsdk REQUIRED)
     set(CPPRESTSDK_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
 
@@ -110,9 +122,10 @@ else()  # Use submodule
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/cpprestsdk)
 
     target_link_libraries(${PROJECT_NAME_L} PUBLIC cpprest)
+    list(APPEND PROJECT_EXPORT_TARGETS cpprest cpprestsdk_websocketpp_internal cpprestsdk_boost_internal cpprestsdk_openssl_internal cpprestsdk_zlib_internal)
 endif()
 
-message(STATUS "Setting target properties - done")
+message(STATUS "Linking external libraries - done")
 
 # -----------------------------------------------------------------------------
 # Installation instructions
@@ -152,7 +165,7 @@ install(
 # Specifies rules for installing targets from a project
 install(
     TARGETS
-        ${PROJECT_NAME_L}
+        ${PROJECT_EXPORT_TARGETS}
     EXPORT  # Associate installed target files with the export
         ${PROJECT_NAME_L}-targets
     LIBRARY

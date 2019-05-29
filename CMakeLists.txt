@@ -20,10 +20,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Options
 # -------
-OPTION(BUILD_SHARED_LIBS OFF "Build shared libraries")
-OPTION(BUILD_TESTS ON "Build the testing tree")
-OPTION(BUILD_SAMPLES ON "Build the sample application")
-OPTION(ENABLE_CODECOV OFF "Enable code coverage reporting")
+OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+OPTION(BUILD_TESTS "Build the testing tree" ON)
+OPTION(BUILD_SAMPLES "Build the sample application" ON)
+OPTION(ENABLE_CODECOV "Enable code coverage reporting" OFF)
 
 # Include additional cmake/ settings
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -32,6 +32,23 @@ set(CMAKE_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
 include(BuildType)
 include(BuildLocation)
 include(CompilerFlags)
+
+# -----------------------------------------------------------------------------
+# Configure required libraries
+# -----------------------------------------------------------------------------
+# Boost
+find_package(Boost REQUIRED
+    COMPONENTS
+        system
+        thread
+        log
+        program_options
+        chrono
+)
+
+# C++ REST SDK
+find_package(cpprestsdk REQUIRED)
+set(CPPRESTSDK_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
 
 # -----------------------------------------------------------------------------
 # Create and set target properties
@@ -72,22 +89,15 @@ add_target_compiler_flags(${PROJECT_NAME_L})
 
 # Include external libs
 # ---------------------
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/boost-cmake)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/openssl-cmake)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/cpprestsdk)
-
 target_link_libraries(${PROJECT_NAME_L}
-    PUBLIC
+    PRIVATE
         Boost::system
         Boost::thread
         Boost::log
         Boost::program_options
         Boost::chrono
 
-        ssl
-        crypto
-
-        cpprest
+        cpprestsdk::cpprest
 )
 
 message(STATUS "Setting target properties - done")
@@ -95,29 +105,29 @@ message(STATUS "Setting target properties - done")
 # -----------------------------------------------------------------------------
 # Installation instructions
 # -----------------------------------------------------------------------------
-# Used to implement 'make install' and packaging
+# Generates installation rules used to implement 'make install' and packaging
 # Installing makes a package generally available to the users of the system by
 #   installing its components into a well-known prefix (e.g. /usr, /usr/local)
 include(GNUInstallDirs)
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
-# Create a a version file for the project
+# Create a a version file for the project from the cmake/ configversion file
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake  # output
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
 )
 
-# Create a config file for the project
+# Create a config file for the project from the cmake/ config file
 configure_package_config_file(
-    ${CMAKE_CURRENT_LIST_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-    INSTALL_DESTINATION
+    ${CMAKE_CURRENT_LIST_DIR}/cmake/${PROJECT_NAME}Config.cmake.in  # input
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake  # output
+    INSTALL_DESTINATION  # Where the config file will be installed
         ${INSTALL_CONFIGDIR}
 )
 
-# Install the ProjectConfig.cmake and ProjectConfigVersion.cmake
+# Install the <package>Config.cmake and <package>ConfigVersion.cmake files
 install(
     FILES
         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
@@ -127,21 +137,23 @@ install(
 )
 
 # Add the library to the "export-set"
+# Specifies rules for installing targets from a project
 install(
     TARGETS
         ${PROJECT_NAME_L}
-    EXPORT
+    EXPORT  # Associate installed target files with the export
         ${PROJECT_NAME_L}-targets
-    LIBRARY DESTINATION
-        ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION
-        ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION
-        ${CMAKE_INSTALL_INCLUDEDIR}
+    LIBRARY
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
 set_target_properties(${PROJECT_NAME_L} PROPERTIES EXPORT_NAME ${PROJECT_NAME})
 
+# Installs contents of include/ to the destination directory
 install(
     DIRECTORY
         include/
@@ -149,15 +161,17 @@ install(
         ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
-# Export the targets to a script
+# Generates and installs a CMake file for importing targets from the install
+#   tree to other projects
+# What is installed by 'make install'
 install(
-    EXPORT  # Generate target export files for install trees
+    EXPORT  # Install the export file itself
         ${PROJECT_NAME_L}-targets
-    FILE
+    FILE  # Specify name of generated file
         ${PROJECT_NAME}Targets.cmake
-    NAMESPACE
+    NAMESPACE  # Prepend to the target name
         ${PROJECT_NAME}::  # ${PROJECT_NAME}::${PROJECT_NAME_L}
-    DESTINATION
+    DESTINATION  # Where to install
         ${INSTALL_CONFIGDIR}
 )
 
@@ -166,9 +180,10 @@ install(
 # -----------------------------------------------------------------------------
 # Allows use of find_package without the use of a find module
 
-# Create a build-directory exported targets file
+# Create a file that may be included by outside project to import targets from
+#   the current project's build tree
 export(
-    EXPORT
+    EXPORT  # Export file generated by install(TARGETS)
         ${PROJECT_NAME_L}-targets
     FILE
         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
@@ -182,7 +197,7 @@ export(PACKAGE ${PROJECT_NAME})
 # -----------------------------------------------------------------------------
 # Testing, samples, and code coverage
 # -----------------------------------------------------------------------------
-if(BUILD_TESTING)  # Handles code coverage
+if(BUILD_TESTS)  # Handles code coverage
     add_subdirectory(tests)
 endif()
 

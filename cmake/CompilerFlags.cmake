@@ -36,7 +36,7 @@
 # -----------------------------------------------------------------------------
 
 # Language/OS agnostic compiler flags
-OPTION(WERROR ON "Treat warnings as errors")
+OPTION(WERROR "Treat warnings as errors" ON)
 
 # Ensure latest compiler versions
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
@@ -96,10 +96,10 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR IOS)
 
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -Wno-return-type-c-linkage -Wno-unneeded-internal-declaration")
         set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
-        set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++17")
+        set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++${CMAKE_CXX_STANDARD}")
     endif()
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fno-strict-aliasing")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -fno-strict-aliasing")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     message(STATUS "Setting GCC options")
 

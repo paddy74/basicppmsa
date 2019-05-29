@@ -10,14 +10,15 @@ This library is developed to allow for the rapid implementation of a microservic
 
 This project has the following dependencies:
 
-- [C++ REST SDK](https://github.com/Microsoft/cpprestsdk)
 - [Boost](https://github.com/boostorg/boost)
+- [Libwebsockets](https://github.com/warmcat/libwebsockets)
 - [OpenSSL](https://github.com/boostorg/boost)
+- [C++ REST SDK](https://github.com/Microsoft/cpprestsdk)
 
 Dependencies can be installed on Ubuntu using the following command:
 
 ```bash
-sudo apt install cmake libssl-dev libboost-all-dev libcpprest-dev
+sudo apt install libboost-atomic-dev libboost-thread-dev libboost-system-dev libboost-date-time-dev libboost-regex-dev libboost-filesystem-dev libboost-random-dev libboost-chrono-dev libboost-serialization-dev libwebsocketpp-dev openssl libssl-dev libcpprest-dev -y
 ```
 
 ### Adding to your project

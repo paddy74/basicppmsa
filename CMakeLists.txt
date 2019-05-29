@@ -20,10 +20,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Options
 # -------
-OPTION(BUILD_SHARED_LIBS
-    "Build ${PROJECT_NAME}.a rather than ${PROJECT_NAME}.so" OFF)
-OPTION(BUILD_TESTING "Build the testing tree." ON)
-OPTION(ENABLE_CODECOV "Enable code coverage reporting." OFF)
+OPTION(BUILD_SHARED_LIBS OFF "Build shared libraries")
+OPTION(BUILD_TESTS ON "Build the testing tree")
+OPTION(BUILD_SAMPLES ON "Build the sample application")
+OPTION(ENABLE_CODECOV OFF "Enable code coverage reporting")
 
 # Include additional cmake/ settings
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -68,7 +68,7 @@ target_include_directories(${PROJECT_NAME_L}
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-target_compile_features(${PROJECT_NAME_L} PRIVATE cxx_auto_type)
+add_target_compiler_flags(${PROJECT_NAME_L})
 
 # Include external libs
 # ---------------------
@@ -95,8 +95,9 @@ message(STATUS "Setting target properties - done")
 # -----------------------------------------------------------------------------
 # Installation instructions
 # -----------------------------------------------------------------------------
-message(STATUS "Installing project")
-
+# Used to implement 'make install' and packaging
+# Installing makes a package generally available to the users of the system by
+#   installing its components into a well-known prefix (e.g. /usr, /usr/local)
 include(GNUInstallDirs)
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
@@ -150,24 +151,22 @@ install(
 
 # Export the targets to a script
 install(
-    EXPORT
+    EXPORT  # Generate target export files for install trees
         ${PROJECT_NAME_L}-targets
     FILE
         ${PROJECT_NAME}Targets.cmake
     NAMESPACE
-        ${PROJECT_NAME}::
+        ${PROJECT_NAME}::  # ${PROJECT_NAME}::${PROJECT_NAME_L}
     DESTINATION
         ${INSTALL_CONFIGDIR}
 )
 
-message(STATUS "Installing project - done")
-
 # -----------------------------------------------------------------------------
 # Export from the build tree
 # -----------------------------------------------------------------------------
-message(STATUS "Exporting project")
+# Allows use of find_package without the use of a find module
 
-# Allow use of find_package(MyLib)
+# Create a build-directory exported targets file
 export(
     EXPORT
         ${PROJECT_NAME_L}-targets
@@ -180,11 +179,13 @@ export(
 # Register package
 export(PACKAGE ${PROJECT_NAME})
 
-message(STATUS "Exporting project - done")
-
 # -----------------------------------------------------------------------------
-# Testing
+# Testing, samples, and code coverage
 # -----------------------------------------------------------------------------
-if(BUILD_TESTING)
+if(BUILD_TESTING)  # Handles code coverage
     add_subdirectory(tests)
+endif()
+
+if(BUILD_SAMPLES)
+    add_subdirectory(samples)
 endif()

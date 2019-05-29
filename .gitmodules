@@ -1,9 +1,6 @@
 [submodule "libs/boost-cmake"]
 	path = libs/boost-cmake
 	url = https://github.com/Orphis/boost-cmake.git
-[submodule "libs/openssl-cmake"]
-	path = libs/openssl-cmake
-	url = https://github.com/viaduck/openssl-cmake.git
 [submodule "libs/cpprestsdk"]
 	path = libs/cpprestsdk
 	url = https://github.com/microsoft/cpprestsdk.git

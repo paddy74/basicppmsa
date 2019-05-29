@@ -87,7 +87,7 @@ target_link_libraries(${PROJECT_NAME_L}
         ssl
         crypto
 
-        cpprestsdk::cpprest
+        cpprest
 )
 
 message(STATUS "Setting target properties - done")

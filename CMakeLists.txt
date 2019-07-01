@@ -225,7 +225,11 @@ export(PACKAGE ${PROJECT_NAME})
 # -----------------------------------------------------------------------------
 # Testing, samples, and code coverage
 # -----------------------------------------------------------------------------
-if(BUILD_TESTS)  # Handles code coverage
+if(BUILD_TESTING OR ENABLE_COVERAGE)  # Handles code coverage
+    # Enable construction of test target
+    include(CTest)
+    enable_testing()
+
     add_subdirectory(tests)
 endif()
 

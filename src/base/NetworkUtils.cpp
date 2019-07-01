@@ -2,19 +2,29 @@
 
 namespace basicppmsa::base
 {
+/* Public static member methods */
+
+std::string NetworkUtils::hostIP4() { return NetworkUtils::hostIP(AF_INET); }
+
+std::string NetworkUtils::hostIP6() { return NetworkUtils::hostIP(AF_INET6); }
+
+std::string NetworkUtils::hostName() { return boost::asio::ip::host_name(); }
+
+/* Private static member methods */
+
 HostInetInfo NetworkUtils::queryHostInetInfo()
 {
     boost::asio::io_service ios;
     boost::asio::ip::tcp::resolver resolver(ios);
-    boost::asio::ip::tcp::resolver::query query(
+    boost::asio::ip::tcp::resolver::query query(  // TODO: deprecated
         boost::asio::ip::host_name(), "");
 
-    return resolver.resolve(query);
+    return resolver.resolve(query);  // TODO: deprecated
 }
 
 std::string NetworkUtils::hostIP(unsigned short family)
 {
-    HostInetInfo hostInetInfo = queryHostInetInfo();
+    HostInetInfo hostInetInfo = NetworkUtils::queryHostInetInfo();
     boost::asio::ip::tcp::resolver::iterator end;
     while (hostInetInfo != end)
     {

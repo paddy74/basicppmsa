@@ -11,15 +11,45 @@ using HostInetInfo = boost::asio::ip::tcp::resolver::iterator;
 class NetworkUtils
 {
 public:
-    // gets the host IP4 string formatted
-    static std::string hostIP4() { return hostIP(AF_INET); }
+    /* Public static member methods */
 
-    // gets the host IP6 string formatted
-    static std::string hostIP6() { return hostIP(AF_INET6); }
-    static std::string hostName() { return boost::asio::ip::host_name(); }
+    /**
+     * @brief Gets ths host IP4 string formatted.
+     *
+     * @return std::string
+     */
+    static std::string hostIP4();
+
+    /**
+     * @brief Gets the host IP6 string formatted.
+     *
+     * @return std::string
+     */
+    static std::string hostIP6();
+
+    /**
+     * @brief Gets the current host name.
+     *
+     * @return std::string
+     */
+    static std::string hostName();
 
 private:
+    /* Private static member methods */
+
+    /**
+     * @brief
+     *
+     * @return HostInetInfo
+     */
     static HostInetInfo queryHostInetInfo();
+
+    /**
+     * @brief
+     *
+     * @param family
+     * @return std::string
+     */
     static std::string hostIP(unsigned short family);
 };
 

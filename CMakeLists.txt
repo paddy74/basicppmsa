@@ -131,7 +131,6 @@ OPTION(USE_SYSTEM_CPPRESTSDK "Use system installation of the C++ REST SDK" ON)
 
 if(USE_SYSTEM_CPPRESTSDK)
     message(STATUS "Using system C++ REST SDK")
-    #include(Findcpprestsdk)
 
     find_package(cpprestsdk REQUIRED)
     set(CPPRESTSDK_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
@@ -139,19 +138,15 @@ if(USE_SYSTEM_CPPRESTSDK)
 else()  # Use submodule to build from source
     message(STATUS "Building C++ REST SDK from source")
 
-    # Clone submodules - works outside of a Git project
-    #clone_submodule(https://github.com/microsoft/cpprestsdk.git
-    #    ${CMAKE_CURRENT_SOURCE_DIR}/libs/cpprestsdk)
-
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/cpprestsdk)
 
     target_link_libraries(${PROJECT_NAME_L} PUBLIC cpprest)
     list(APPEND PROJECT_EXPORT_TARGETS
         cpprest
-        cpprestsdk_websocketpp_internal
-        cpprestsdk_boost_internal
         cpprestsdk_openssl_internal
+        cpprestsdk_boost_internal
         cpprestsdk_zlib_internal
+        cpprestsdk_websocketpp_internal
     )
 endif()
 

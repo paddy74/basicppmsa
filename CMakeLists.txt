@@ -44,8 +44,8 @@ message(STATUS "Setting target properties")
 # Set the library sources
 # -----------------------
 set(libsrc
-    src/base/BasicController.cpp
     src/base/NetworkUtils.cpp
+    src/base/BasicController.cpp
     src/MainServiceController.cpp
 )
 
@@ -83,13 +83,13 @@ message(STATUS "Linking external libraries")
 # Hold the project's export targets
 set(PROJECT_EXPORT_TARGETS ${PROJECT_NAME_L})
 
-# Toggle using system installed libraries
-OPTION(USE_SYSTEM_BOOST "Use system installation of Boost libraries" ON)
-OPTION(USE_SYSTEM_CPPRESTSDK "Use system installation of the C++ REST SDK" ON)
-
 # Boost option
+# ------------
+OPTION(USE_SYSTEM_BOOST "Use system installation of Boost libraries" ON)
+
 if(USE_SYSTEM_BOOST)
     message(STATUS "Using system Boost")
+
     find_package(Boost REQUIRED
         COMPONENTS
             system
@@ -99,9 +99,20 @@ if(USE_SYSTEM_BOOST)
             chrono
     )
 else()  # Use boost-cmake
+    message(STATUS "Building Boost components from source")
+
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/boost-cmake)
 
-    list(APPEND PROJECT_EXPORT_TARGETS Boost_system Boost_thread Boost_log Boost_atomic Boost_date_time Boost_filesystem Boost_program_options Boost_chrono)
+    list(APPEND PROJECT_EXPORT_TARGETS
+        Boost_system
+        Boost_thread
+        Boost_log
+        Boost_atomic
+        Boost_date_time
+        Boost_filesystem
+        Boost_program_options
+        Boost_chrono
+    )
 endif()
 
 # Link Boost
@@ -115,17 +126,33 @@ target_link_libraries(${PROJECT_NAME_L}
 )
 
 # C++ REST SDK option
+# -------------------
+OPTION(USE_SYSTEM_CPPRESTSDK "Use system installation of the C++ REST SDK" ON)
+
 if(USE_SYSTEM_CPPRESTSDK)
     message(STATUS "Using system C++ REST SDK")
+    #include(Findcpprestsdk)
+
     find_package(cpprestsdk REQUIRED)
     set(CPPRESTSDK_LIBRARIES "-lboost_system -lcrypto -lssl -lcpprest")
+    target_link_libraries(${PROJECT_NAME_L} PUBLIC ${CPPRESTSDK_LIBRARIES})
+else()  # Use submodule to build from source
+    message(STATUS "Building C++ REST SDK from source")
 
-    target_link_libraries(${PROJECT_NAME_L} PUBLIC cpprestsdk::cpprest)
-else()  # Use submodule
+    # Clone submodules - works outside of a Git project
+    #clone_submodule(https://github.com/microsoft/cpprestsdk.git
+    #    ${CMAKE_CURRENT_SOURCE_DIR}/libs/cpprestsdk)
+
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/cpprestsdk)
 
     target_link_libraries(${PROJECT_NAME_L} PUBLIC cpprest)
-    list(APPEND PROJECT_EXPORT_TARGETS cpprest cpprestsdk_websocketpp_internal cpprestsdk_boost_internal cpprestsdk_openssl_internal cpprestsdk_zlib_internal)
+    list(APPEND PROJECT_EXPORT_TARGETS
+        cpprest
+        cpprestsdk_websocketpp_internal
+        cpprestsdk_boost_internal
+        cpprestsdk_openssl_internal
+        cpprestsdk_zlib_internal
+    )
 endif()
 
 message(STATUS "Linking external libraries - done")

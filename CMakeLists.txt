@@ -21,12 +21,15 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Options
 # -------
 OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF)
-OPTION(BUILD_TESTS "Build the testing tree" ON)
-OPTION(BUILD_SAMPLES "Build the sample application" ON)
-OPTION(ENABLE_CODECOV "Enable code coverage reporting" OFF)
+OPTION(BUILD_TESTING "Build the testing tree" ON)
+OPTION(ENABLE_COVERAGE "Enable code coverage reporting. Also enables testing" OFF)
+OPTION(BUILD_SAMPLES "Build sample applications" ON)
 
 # Include additional cmake/ settings
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+set(CMAKE_MODULE_PATH
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules"
+)
 set(CMAKE_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
 include(BuildType)

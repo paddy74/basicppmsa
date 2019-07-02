@@ -33,18 +33,18 @@ The reccommended way to add this library to you project is by including the foll
 cmake_minimum_required(VERSION 3.13)
 project(myProject)
 
-include_directories("path/to/basicppmsa/include")
-add_subdirectory("path/to/basicppmsa")
+include_directories("path/to/msabase/include")
+add_subdirectory("path/to/msabase")
 
 add_executable(myProject myProject_SOURCES)
 # or `add_library(myProject myProject_SOURCES)`
 
-target_link_libraries(myProject basicppmsa)
+target_link_libraries(myProject msabase)
 ```
 
 ### Usage
 
-When using this library, create a child class of basicppmsa::MainServiceController with your custom overrides of the available HTTP requests.
+When using this library, create a child class of msabase::MainServiceController with your custom overrides of the available HTTP requests.
 
 An example deployment using this library can be found in [tests/src/testDeploy.cc](tests/src/testDeploy.cc)
 

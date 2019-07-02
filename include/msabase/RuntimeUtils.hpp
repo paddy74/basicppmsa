@@ -3,7 +3,7 @@
 #include <execinfo.h>
 #include <unistd.h>
 
-namespace basicppmsa
+namespace msabase
 {
 /**
  * @brief Print the stack trac when an unexpected exception occurs
@@ -26,4 +26,4 @@ public:
     }
 };
 
-}  // namespace basicppmsa
+}  // namespace msabase

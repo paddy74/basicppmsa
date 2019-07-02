@@ -1,6 +1,6 @@
-#include <basicppmsa/MainServiceController.hpp>
+#include <msabase/MainServiceController.hpp>
 
-namespace basicppmsa
+namespace msabase
 {
 /* Public class methods */
 
@@ -164,4 +164,4 @@ web::json::value MainServiceController::responseNotImpl(
     return response;
 }
 
-}  // namespace basicppmsa
+}  // namespace msabase

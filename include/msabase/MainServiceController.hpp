@@ -2,7 +2,7 @@
 
 #include "../src/base/BasicController.hpp"
 
-namespace basicppmsa
+namespace msabase
 {
 /**
  * @brief Manages registering handles with the http_listener and provides
@@ -63,4 +63,4 @@ protected:
     web::json::value responseNotImpl(web::http::method const & method) const;
 };
 
-}  // namespace basicppmsa
+}  // namespace msabase

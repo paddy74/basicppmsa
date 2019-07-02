@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
-project(BasiCppMSA VERSION 0.1 LANGUAGES CXX)
-set(PROJECT_NAME_L basicppmsa)
+project(MSAbase VERSION 0.1 LANGUAGES CXX)
+set(PROJECT_NAME_L msabase)
 
 # -----------------------------------------------------------------------------
 # Build settings

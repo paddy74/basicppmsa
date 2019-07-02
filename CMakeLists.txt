@@ -101,6 +101,12 @@ if(USE_SYSTEM_BOOST)
 else()  # Use boost-cmake
     message(STATUS "Building Boost components from source")
 
+    include(FetchContent)
+    FetchContent_Declare(
+        Boost
+        GIT_REPOSITORY https://github.com/boostorg/boost.git
+        GIT_TAG boost-1.70.0
+    )
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/boost-cmake)
 
     list(APPEND PROJECT_EXPORT_TARGETS

@@ -2,7 +2,7 @@
 
 #include "NetworkUtils.hpp"
 
-namespace basicppmsa::base
+namespace msabase::base
 {
 // Constructors
 
@@ -71,4 +71,4 @@ std::vector<utility::string_t> BasicController::requestPath(
     return web::uri::split_path(relativePath);
 }
 
-}  // namespace basicppmsa::base
+}  // namespace msabase::base

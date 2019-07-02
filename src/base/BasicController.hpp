@@ -7,7 +7,7 @@
 
 #include "core/Controller.hpp"
 
-namespace basicppmsa::base
+namespace msabase::base
 {
 /**
  * @brief Provides a wrapper around http_listener and methods to read the
@@ -37,4 +37,4 @@ protected:
     web::http::experimental::listener::http_listener _listener;
 };
 
-}  // namespace basicppmsa::base
+}  // namespace msabase::base

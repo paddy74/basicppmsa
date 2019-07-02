@@ -2,7 +2,7 @@
 
 #include <cpprest/http_msg.h>
 
-namespace basicppmsa::base::core
+namespace msabase::base::core
 {
 /**
  * @brief Provides an interface to implement handlers for each HTTP method
@@ -23,4 +23,4 @@ public:
     virtual void handleMerge(web::http::http_request message) = 0;
 };
 
-}  // namespace basicppmsa::base::core
+}  // namespace msabase::base::core

@@ -1,15 +1,15 @@
-#include <basicppmsa/InterruptHandler.hpp>
-#include <basicppmsa/MainServiceController.hpp>
-#include <basicppmsa/RuntimeUtils.hpp>
+#include <msabase/InterruptHandler.hpp>
+#include <msabase/MainServiceController.hpp>
+#include <msabase/RuntimeUtils.hpp>
 
 int main()
 {
-    basicppmsa::InterruptHandler::hookSIGINT();
+    msabase::InterruptHandler::hookSIGINT();
 
-    basicppmsa::MainServiceController server;
-    server.setEndpoint("http://host_auto_ip4:6502/basicppmsa/api");
+    msabase::MainServiceController server;
+    server.setEndpoint("http://host_auto_ip4:6502/msabase/api");
 
-    basicppmsa::RuntimeUtils::printStackTrace();
+    msabase::RuntimeUtils::printStackTrace();
 
     return 0;
 }

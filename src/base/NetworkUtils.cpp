@@ -1,6 +1,6 @@
 #include "NetworkUtils.hpp"
 
-namespace basicppmsa::base
+namespace msabase::base
 {
 /* Public static member methods */
 
@@ -36,4 +36,4 @@ std::string NetworkUtils::hostIP(unsigned short family)
     return nullptr;
 }
 
-}  // namespace basicppmsa::base
+}  // namespace msabase::base

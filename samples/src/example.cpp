@@ -1,15 +1,15 @@
-#include <basicppmsa/InterruptHandler.hpp>
-#include <basicppmsa/MainServiceController.hpp>
-#include <basicppmsa/RuntimeUtils.hpp>
+#include <msabase/InterruptHandler.hpp>
+#include <msabase/MainServiceController.hpp>
+#include <msabase/RuntimeUtils.hpp>
 
 int main()
 {
     // Hook on the SIGINT interrupt
-    basicppmsa::InterruptHandler::hookSIGINT();
+    msabase::InterruptHandler::hookSIGINT();
 
     // Create and initialize the service at the endpoint
-    basicppmsa::MainServiceController server;
-    server.setEndpoint("http://host_auto_ip4:6502/basicppmsa/api");
+    msabase::MainServiceController server;
+    server.setEndpoint("http://host_auto_ip4:6502/msabase/api");
 
     try
     {
@@ -20,7 +20,7 @@ int main()
                   << server.endpoint() << std::endl;
 
         // Prevent the process from leaving until SIGINT
-        basicppmsa::InterruptHandler::waitForUserInterrupt();
+        msabase::InterruptHandler::waitForUserInterrupt();
 
         // Shutdown the service and wait for all threads to finish
         server.shutdown().wait();
@@ -31,7 +31,7 @@ int main()
     }
     catch (...)
     {
-        basicppmsa::RuntimeUtils::printStackTrace();
+        msabase::RuntimeUtils::printStackTrace();
     }
 
     return 0;

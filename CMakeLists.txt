@@ -127,9 +127,9 @@ target_link_libraries(${PROJECT_NAME_L}
 
 # C++ REST SDK option
 # -------------------
-OPTION(USE_SYSTEM_CPPRESTSDK "Use system installation of the C++ REST SDK" ON)
+OPTION(USE_SYSTEM_CPPREST "Use system installation of the C++ REST SDK" ON)
 
-if(USE_SYSTEM_CPPRESTSDK)
+if(USE_SYSTEM_CPPREST)
     message(STATUS "Using system C++ REST SDK")
 
     find_package(cpprestsdk REQUIRED)

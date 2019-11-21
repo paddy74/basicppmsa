@@ -142,14 +142,34 @@ void MainServiceController::initRestOpHandlers()
         web::http::methods::POST,
         std::bind(
             &MainServiceController::handlePost, this, std::placeholders::_1));
-    this->_listener.support(  // DEL
-        web::http::methods::DEL, std::bind(
-                                     &MainServiceController::handleDelete,
-                                     this, std::placeholders::_1));
     this->_listener.support(  // PATCH
         web::http::methods::PATCH,
         std::bind(
             &MainServiceController::handlePatch, this, std::placeholders::_1));
+    this->_listener.support(  // DEL
+        web::http::methods::DEL, std::bind(
+                                     &MainServiceController::handleDelete,
+                                     this, std::placeholders::_1));
+    this->_listener.support(  // HEAD
+        web::http::methods::HEAD,
+        std::bind(
+            &MainServiceController::handleHead, this, std::placeholders::_1));
+    this->_listener.support(  // OPTIONS
+        web::http::methods::OPTIONS, std::bind(
+                                         &MainServiceController::handleOptions,
+                                         this, std::placeholders::_1));
+    this->_listener.support(  // TRACE
+        web::http::methods::TRCE,
+        std::bind(
+            &MainServiceController::handleTrace, this, std::placeholders::_1));
+    this->_listener.support(  // CONNECT
+        web::http::methods::CONNECT, std::bind(
+                                         &MainServiceController::handleConnect,
+                                         this, std::placeholders::_1));
+    this->_listener.support(  // MERGE
+        web::http::methods::MERGE,
+        std::bind(
+            &MainServiceController::handleMerge, this, std::placeholders::_1));
 }
 
 /* Protected class methods */

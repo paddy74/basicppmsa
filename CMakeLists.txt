@@ -21,8 +21,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Options
 # -------
 OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+OPTION(USE_ONLY_STATIC_LIBS "Use only static library dependencies" ON)
 OPTION(BUILD_TESTING "Build the testing tree" ON)
-OPTION(ENABLE_COVERAGE "Enable code coverage reporting. Also enables testing" OFF)
+OPTION(ENABLE_COVERAGE
+    "Enable code coverage reporting. Also enables testing" OFF)
 OPTION(BUILD_SAMPLES "Build sample applications" ON)
 
 # Include additional cmake/ settings
@@ -32,9 +34,25 @@ set(CMAKE_MODULE_PATH
 )
 set(CMAKE_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
-include(BuildType)
+# Include CMake modules
 include(BuildLocation)
+include(BuildType)
+
 include(CompilerFlags)
+include(Findcpprestsdk)
+
+# Enforce static or shared libraries
+if(USE_ONLY_STATIC_LIBS)
+    if(WIN32)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
+    else()
+        set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    endif()
+
+    set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries")
+elseif(BUILD_SHARED_LIBS)  # Only BUILD_SHARED_LIBS
+    set(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries")
+endif()
 
 # -----------------------------------------------------------------------------
 # Create and set target properties

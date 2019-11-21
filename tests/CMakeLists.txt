@@ -1,4 +1,4 @@
-message(STATUS "Preparing tests")
+message(STATUS "Generating tests")
 
 # Enable construction of test target
 enable_testing()
@@ -14,4 +14,27 @@ endmacro(create_test)
 
 create_test(msabase.test_deploy)
 
-message(STATUS "Preparing tests - done")
+message(STATUS "Generating tests - done")
+
+# -----------------------------------------------------------------------------
+# Code Coverage report
+# -----------------------------------------------------------------------------
+# cmake .. -DENABLE_CODECOV=ON
+# cmake --build .
+# cmake --target target
+if (ENABLE_COVERAGE)
+    include(CodeCoverage)
+    set(COVERAGE_LCOV_EXCLUDES "${CMAKE_CURRENT_SOURCE_DIR}/../libs/*")
+
+    APPEND_COVERAGE_COMPILER_FLAGS()
+
+    include(ProcessorCount)
+    ProcessorCount(N_CORES)
+
+    SETUP_TARGET_FOR_COVERAGE_LCOV(
+        NAME lowletorfeats.coverage
+        EXECUTABLE cd tests/ && ctest -j ${N_CORES}
+        DEPENDENCIES
+            msabase.test_deploy
+    )
+endif()

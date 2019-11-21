@@ -27,7 +27,15 @@ class MainServiceController : public base::BasicController,
 public:
     /* Constructors */
 
-    MainServiceController() : base::BasicController() {}
+    MainServiceController() : base::BasicController()
+    {
+        this->serviceName = "C++ REST SDK Service";
+    }
+    MainServiceController(utility::string_t const & serviceName)
+        : base::BasicController()
+    {
+        this->serviceName = serviceName;
+    }
     ~MainServiceController() {}
 
     /* Public class methods */
@@ -46,6 +54,10 @@ public:
     void initRestOpHandlers() override;
 
 protected:
+    /* Protected class variables */
+
+    utility::string_t serviceName;  // The name of the microservice
+
     /* Protected class methods */
 
     /**
